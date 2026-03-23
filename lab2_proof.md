@@ -1,6 +1,6 @@
 # Lab 2 — Fulfillment Proof
 **Project:** RysuReads — Online Bookstore  
-**Student:** [Your Name]
+
 
 ---
 
