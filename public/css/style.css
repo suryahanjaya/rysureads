@@ -1,0 +1,264 @@
+/*
+ * RysuReads - Simple Green & White Theme
+ */
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Push footer to bottom — flex sticky footer pattern */
+.main-content {
+    flex: 1;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #3D8D7A !important;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.nav-link {
+    color: #ffffff !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #d4f0e7 !important;
+}
+
+/* Hero */
+.hero-section {
+    background-color: #3D8D7A;
+    color: #ffffff;
+    padding: 70px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #ffffff;
+}
+
+.hero-section p {
+    color: #d4f0e7;
+}
+
+.btn-browse {
+    background-color: #ffffff;
+    color: #3D8D7A;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-browse:hover {
+    background-color: #d4f0e7;
+    color: #3D8D7A;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #3D8D7A;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Search */
+.search-wrapper {
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+}
+
+.search-wrapper input {
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.search-wrapper input:focus {
+    outline: none;
+    border-color: #3D8D7A;
+}
+
+/* Book Cards */
+.book-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.book-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.book-card .card-img-top {
+    height: 240px;
+    object-fit: cover;
+}
+
+.book-card .card-body {
+    padding: 14px;
+}
+
+.book-card .card-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.book-card .card-text {
+    color: #666;
+    font-size: 0.88rem;
+}
+
+.book-price {
+    font-weight: 700;
+    color: #3D8D7A;
+    font-size: 1.1rem;
+    margin: 6px 0;
+}
+
+.btn-view {
+    background-color: #3D8D7A;
+    color: #ffffff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 5px;
+    font-size: 0.88rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-view:hover {
+    background-color: #2e6b5c;
+    color: #ffffff;
+}
+
+/* Contact */
+.contact-section {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    padding: 28px;
+}
+
+.contact-section .form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.contact-section .form-control:focus {
+    border-color: #3D8D7A;
+    box-shadow: none;
+}
+
+.btn-submit {
+    background-color: #3D8D7A;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.btn-submit:hover {
+    background-color: #2e6b5c;
+}
+
+/* Item Details */
+.detail-img {
+    border-radius: 6px;
+    max-height: 420px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.detail-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.detail-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #3D8D7A;
+    margin: 12px 0;
+}
+
+.detail-description {
+    color: #555;
+    line-height: 1.7;
+}
+
+.detail-category {
+    display: inline-block;
+    background-color: #d4f0e7;
+    color: #3D8D7A;
+    padding: 3px 12px;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.btn-back {
+    color: #3D8D7A;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.btn-back:hover {
+    color: #2e6b5c;
+}
+
+/* Toast */
+.custom-toast {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 9999;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+}
+
+.custom-toast.show {
+    transform: translateX(0);
+}
+
+.toast-content {
+    background-color: #3D8D7A;
+    border-radius: 5px;
+    padding: 12px 18px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* Footer */
+footer {
+    background-color: #3D8D7A !important;
+    color: #ffffff;
+    flex-shrink: 0;
+}
