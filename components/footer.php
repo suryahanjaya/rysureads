@@ -2,12 +2,12 @@
     <div class="container py-4 footer-shell">
         <div>
             <p class="footer-brand">RysuReads</p>
-            <p class="footer-copy">Copyright 2026. Contact: support@rysureads.local | +84 900 000 123</p>
+            <p class="footer-copy" data-i18n="footer.copy">Copyright 2026</p>
         </div>
         <div class="footer-links">
-            <a class="footer-link" href="/products">Products</a>
-            <a class="footer-link" href="/search">Search</a>
-            <a class="footer-link" href="/public/sitemap.xml">Sitemap</a>
+            <a class="footer-link" href="/products" data-i18n="footer.products">Products</a>
+            <a class="footer-link" href="/search" data-i18n="footer.search">Search</a>
+            <a class="footer-link" href="/public/sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
         </div>
     </div>
 </footer>

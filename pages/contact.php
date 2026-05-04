@@ -18,9 +18,9 @@ include '../components/page_open.php';
         </nav>
         <div class="page-heading-row">
             <div>
-                <span class="eyebrow">Get in touch</span>
-                <h1>Contact the reading room</h1>
-                <p>Use the details below for support, location questions, or account help.</p>
+                <span class="eyebrow" data-i18n="contact.eyebrow">Get in touch</span>
+                <h1 data-i18n="contact.title">Contact the reading room</h1>
+                <p data-i18n="contact.copy">Use the details below for support, location questions, or account help.</p>
             </div>
         </div>
     </div>
@@ -30,13 +30,14 @@ include '../components/page_open.php';
     <div class="container">
         <div class="contact-shell contact-page-shell">
             <div>
-                <h3>RysuReads support</h3>
-                <p>Questions about the catalog, locations, or account access can be sent to the contact details below.</p>
+                <h3 data-i18n="contact.name">Jay</h3>
+                <p data-i18n="contact.desc">Online bookstore contact and community links.</p>
             </div>
-            <div>
-                <p class="contact-line">Email: support@rysureads.local</p>
-                <p class="contact-line">Phone: +84 900 000 123</p>
-                <p class="contact-line">Main office: Ho Chi Minh City</p>
+            <div class="contact-detail-list">
+                <a class="contact-link" href="mailto:surya.23007@mhs.unesa.ac.id" data-i18n="contact.email">surya.23007@mhs.unesa.ac.id</a>
+                <a class="contact-link" href="tel:+6281263436187" data-i18n="contact.phone">+62 81263436187</a>
+                <a class="contact-link" href="https://www.linkedin.com/in/surya-hanjaya/" target="_blank" rel="noopener" data-i18n="contact.linkedin">LinkedIn</a>
+                <a class="contact-link" href="https://www.instagram.com/h4njy/" target="_blank" rel="noopener" data-i18n="contact.instagram">Instagram</a>
             </div>
         </div>
     </div>

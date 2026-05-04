@@ -89,23 +89,23 @@ $featuredItems = $conn->query($featuredSql);
     <div class="container">
         <div class="hero-grid">
             <div class="hero-copy">
-                <span class="eyebrow">Online bookstore</span>
-                <h1>Welcome to RysuReads.</h1>
-                <p>Browse books, categories, and store locations in a clean, timeless online bookstore experience.</p>
+                <span class="eyebrow" data-i18n="home.eyebrow">Online bookstore</span>
+                <h1 data-i18n="home.title">Welcome to RysuReads.</h1>
+                <p data-i18n="home.copy">Browse books, categories, and store locations in a clean, timeless online bookstore experience.</p>
                 <div class="hero-actions">
-                    <a href="/products" class="btn-primary-action">Browse the catalog</a>
-                    <a href="/search" class="btn-secondary-action">Search titles</a>
+                    <a href="/products" class="btn-primary-action" data-i18n="home.browse">Browse the catalog</a>
+                    <a href="/search" class="btn-secondary-action" data-i18n="home.searchBtn">Search titles</a>
                 </div>
             </div>
             <aside class="hero-panel" aria-label="Highlights">
                 <div class="hero-panel-card">
-                    <span class="panel-label">Featured paths</span>
-                    <strong>Books for every reading mood</strong>
-                    <p>Explore categories, item details, and store availability in one place.</p>
+                    <span class="panel-label" data-i18n="home.featuredLabel">Featured paths</span>
+                    <strong data-i18n="home.featuredTitle">Books for every reading mood</strong>
+                    <p data-i18n="home.featuredCopy">Explore categories, item details, and store availability in one place.</p>
                 </div>
                 <div class="hero-panel-card hero-panel-card-accent">
-                    <span class="panel-label">Read with ease</span>
-                    <p>Balanced spacing and classic typography keep the catalog easy to scan on any screen.</p>
+                    <span class="panel-label" data-i18n="home.readLabel">Read with ease</span>
+                    <p data-i18n="home.readCopy">Balanced spacing and classic typography keep the catalog easy to scan on any screen.</p>
                 </div>
             </aside>
         </div>
@@ -115,11 +115,11 @@ $featuredItems = $conn->query($featuredSql);
 <section class="section-block" id="search-section">
     <div class="container">
         <div class="section-heading">
-            <h2>Search the catalog</h2>
+            <h2 data-i18n="home.searchHeading">Search the catalog</h2>
         </div>
         <div class="search-shell home-search-cta">
-            <p class="mb-0">Search the online bookstore by title, category, or keyword.</p>
-            <a href="/search" class="btn-primary-action">Open search</a>
+            <p class="mb-0" data-i18n="home.searchCopy">Search the online bookstore by title, category, or keyword.</p>
+            <a href="/search" class="btn-primary-action" data-i18n="home.openSearch">Open search</a>
         </div>
     </div>
 </section>
@@ -127,7 +127,7 @@ $featuredItems = $conn->query($featuredSql);
 <section class="section-block" id="catalog">
     <div class="container">
         <div class="section-heading">
-            <h2>Featured selections</h2>
+            <h2 data-i18n="home.featuredHeading">Featured selections</h2>
         </div>
         <div class="row g-4">
             <?php if ($featuredItems && $featuredItems->num_rows > 0): ?>

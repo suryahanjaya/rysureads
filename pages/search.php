@@ -18,8 +18,8 @@ include '../components/page_open.php';
         </nav>
         <div class="page-heading-row">
             <div>
-                <h1>Search titles</h1>
-                <p>Type a title, category, or keyword and the catalog updates as you search.</p>
+                <h1 data-i18n="search.title">Search titles</h1>
+                <p data-i18n="search.copy">Type a title, category, or keyword and the catalog updates as you search.</p>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@ include '../components/page_open.php';
 <section class="section-block pt-0">
     <div class="container">
         <div class="search-shell">
-            <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Type a product name, category, or keyword" data-ajax-search>
+            <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Type a product name, category, or keyword" data-i18n-placeholder="search.placeholder" data-ajax-search>
             <div id="searchResults" class="search-results-grid" aria-live="polite"></div>
         </div>
     </div>

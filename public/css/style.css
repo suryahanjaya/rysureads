@@ -21,6 +21,8 @@ html {
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text);
+    display: flex;
+    flex-direction: column;
     background:
         radial-gradient(circle at 10% 0%, rgba(122, 31, 43, 0.10), transparent 22%),
         radial-gradient(circle at 88% 12%, rgba(169, 69, 81, 0.08), transparent 20%),
@@ -127,6 +129,16 @@ a {
     color: var(--muted);
 }
 
+.utility-toggle {
+    appearance: none;
+    border: 1px solid rgba(122, 31, 43, 0.15);
+    background: rgba(122, 31, 43, 0.06);
+    color: var(--brand-dark);
+    border-radius: 999px;
+    padding: 0.55rem 0.9rem;
+    font-weight: 700;
+}
+
 .header-navline {
     padding-top: 1rem;
 }
@@ -186,8 +198,8 @@ a {
 .nav-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(13, 12, 14, 0.34);
-    backdrop-filter: blur(8px);
+    background: rgba(248, 243, 235, 0.58);
+    backdrop-filter: blur(10px);
     z-index: 35;
 }
 
@@ -719,6 +731,28 @@ body.nav-is-open .site-footer {
     align-items: start;
 }
 
+.contact-page-shell {
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.contact-detail-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.contact-link {
+    color: var(--brand-dark);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(122, 31, 43, 0.12);
+}
+
+.contact-link:hover {
+    border-bottom-color: var(--accent);
+}
+
 .home-search-cta {
     justify-content: space-between;
 }
@@ -726,6 +760,7 @@ body.nav-is-open .site-footer {
 .site-footer {
     background: linear-gradient(180deg, var(--brand) 0%, var(--brand-dark) 100%);
     color: #fff;
+    margin-top: auto;
 }
 
 .footer-shell {
@@ -759,6 +794,63 @@ body.nav-is-open .site-footer {
 
 .footer-link:hover {
     color: #fff;
+}
+
+html[data-theme="dark"] {
+    --bg: #171113;
+    --surface: #20171a;
+    --surface-strong: #251b1e;
+    --text: #f5eceb;
+    --muted: #d4c6c5;
+    --brand: #c94e5a;
+    --brand-dark: #8b2630;
+    --brand-soft: #352225;
+    --accent: #e07a82;
+    --accent-soft: #3a2528;
+    --border: rgba(255, 255, 255, 0.10);
+    --shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
+    --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.20);
+}
+
+html[data-theme="dark"] body {
+    background:
+        radial-gradient(circle at 10% 0%, rgba(201, 78, 90, 0.12), transparent 22%),
+        radial-gradient(circle at 88% 12%, rgba(224, 122, 130, 0.08), transparent 20%),
+        linear-gradient(180deg, #171113 0%, #1d1517 100%);
+}
+
+html[data-theme="dark"] .site-header,
+html[data-theme="dark"] .hero-panel,
+html[data-theme="dark"] .contact-shell,
+html[data-theme="dark"] .form-shell,
+html[data-theme="dark"] .location-card,
+html[data-theme="dark"] .product-card,
+html[data-theme="dark"] .search-result-card,
+html[data-theme="dark"] .empty-state,
+html[data-theme="dark"] .catalog-toolbar,
+html[data-theme="dark"] .search-shell,
+html[data-theme="dark"] .detail-media,
+html[data-theme="dark"] .detail-copy,
+html[data-theme="dark"] .nav-drawer,
+html[data-theme="dark"] .nav-panel {
+    background: rgba(35, 25, 28, 0.98);
+}
+
+html[data-theme="dark"] .nav-backdrop {
+    background: rgba(23, 17, 19, 0.45);
+}
+
+html[data-theme="dark"] .utility-toggle {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .hero-section::before,
+html[data-theme="dark"] .page-hero::before {
+    background:
+        linear-gradient(155deg, rgba(35, 25, 28, 0.92) 0 22%, rgba(35, 25, 28, 0.24) 22% 40%, rgba(35, 25, 28, 0) 40%),
+        radial-gradient(circle at 14% 18%, rgba(201, 78, 90, 0.10), transparent 28%);
 }
 
 .custom-toast {

@@ -62,16 +62,16 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
         </nav>
         <div class="page-heading-row">
             <div>
-                <h1>Browse the full catalog</h1>
-                <p>Sort by name, price, or rating, then open any item to view details and store availability.</p>
+                <h1 data-i18n="products.title">Browse the full catalog</h1>
+                <p data-i18n="products.copy">Sort by name, price, or rating, then open any item to view details and store availability.</p>
             </div>
             <?php if (is_admin()): ?>
-                <a href="/create-item" class="btn-primary-action">Add item</a>
+                <a href="/create-item" class="btn-primary-action" data-i18n="products.add">Add item</a>
             <?php endif; ?>
         </div>
         <form class="catalog-toolbar" method="get">
             <div class="toolbar-group">
-                <label for="categoryFilter">Category</label>
+                <label for="categoryFilter" data-i18n="products.category">Category</label>
                 <select id="categoryFilter" name="category" class="form-select" data-category-filter>
                     <option value="">All categories</option>
                     <?php if ($categories): ?>
@@ -84,7 +84,7 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                 </select>
             </div>
             <div class="toolbar-group">
-                <label for="sortFilter">Sort by</label>
+                <label for="sortFilter" data-i18n="products.sort">Sort by</label>
                 <select id="sortFilter" name="sort" class="form-select" data-sort-filter>
                     <option value="newest" <?php echo $sortKey === 'newest' ? 'selected' : ''; ?>>Newest</option>
                     <option value="name_asc" <?php echo $sortKey === 'name_asc' ? 'selected' : ''; ?>>Name A-Z</option>
