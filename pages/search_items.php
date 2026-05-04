@@ -7,6 +7,20 @@ $sortKey = $_GET['sort'] ?? 'rating_desc';
 $sortOptions = allowed_sort_options();
 $sortSql = $sortOptions[$sortKey] ?? $sortOptions['rating_desc'];
 
+function search_preview_text(?string $english, string $fallback, string $emptyMessage): string
+{
+    $english = trim((string) $english);
+    if ($english !== '') {
+        return $english;
+    }
+
+    if ($fallback !== '' && preg_match('/\p{Han}/u', $fallback) !== 1) {
+        return $fallback;
+    }
+
+    return $emptyMessage;
+}
+
 $sql = "SELECT items.*, categories.name AS category_name, categories.slug AS category_slug
         FROM items
         JOIN categories ON categories.id = items.category_id
@@ -36,7 +50,10 @@ while ($item = $results->fetch_assoc()): ?>
                 <span class="rating">&#9733; <?php echo number_format((float) $item['rating'], 1); ?></span>
             </div>
             <h3><?php echo e($item['name']); ?></h3>
-            <p><?php echo e(mb_strimwidth($item['description'], 0, 110, '...')); ?></p>
+            <p>
+                <span class="item-desc-en"><?php echo e(mb_strimwidth(search_preview_text($item['description_en'] ?? null, (string) $item['description'], 'Description unavailable in English.'), 0, 110, '...')); ?></span>
+                <span class="item-desc-zh" hidden><?php echo e(mb_strimwidth((string) $item['description'], 0, 110, '...')); ?></span>
+            </p>
             <div class="product-bottom">
                 <strong>$<?php echo number_format((float) $item['price'], 2); ?></strong>
                 <a href="<?php echo e(product_url($item['slug'])); ?>" class="btn-link-action">View details</a>

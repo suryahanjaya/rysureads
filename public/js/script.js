@@ -153,8 +153,10 @@
     }
 
     function setupThemeAndLanguage() {
-        var themeToggle = document.querySelector('[data-theme-toggle]');
-        var langToggle = document.querySelector('[data-lang-toggle]');
+        var themeToggles = Array.prototype.slice.call(document.querySelectorAll('[data-theme-toggle]'));
+        var langToggles  = Array.prototype.slice.call(document.querySelectorAll('[data-lang-toggle]'));
+        var themeToggle  = themeToggles[0] || null;  // kept for compat
+        var langToggle   = langToggles[0]  || null;
         var root = document.documentElement;
         var theme = window.localStorage.getItem('rysureads-theme') || 'light';
         var lang = window.localStorage.getItem('rysureads-lang') || 'en';
@@ -370,25 +372,77 @@
         applyTheme(theme);
         applyLanguage(lang);
 
-        if (themeToggle) {
-            themeToggle.addEventListener('click', function () {
-                applyTheme(theme === 'dark' ? 'light' : 'dark');
+        if (themeToggles.length) {
+            themeToggles.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    applyTheme(theme === 'dark' ? 'light' : 'dark');
+                });
             });
         }
 
-        if (langToggle) {
-            langToggle.addEventListener('click', function () {
-                applyLanguage(lang === 'zh' ? 'en' : 'zh');
+        if (langToggles.length) {
+            langToggles.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    applyLanguage(lang === 'zh' ? 'en' : 'zh');
+                });
             });
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    function setupMobileMenu() {
+        var openBtn = document.querySelector('[data-mobile-menu]');
+        var closeBtn = document.querySelector('[data-mobile-close]');
+        var drawer = document.querySelector('[data-mobile-drawer]');
+
+        if (!openBtn || !drawer) return;
+
+        // Remove the HTML hidden attribute — visibility handled purely by CSS class
+        drawer.removeAttribute('hidden');
+
+        // Create a dedicated backdrop for mobile drawer
+        var bd = document.createElement('div');
+        bd.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9998;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+        document.body.appendChild(bd);
+
+        function openDrawer() {
+            drawer.classList.add('is-open');
+            bd.style.opacity = '1';
+            bd.style.pointerEvents = 'all';
+            openBtn.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('is-open');
+            bd.style.opacity = '0';
+            bd.style.pointerEvents = 'none';
+            openBtn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', openDrawer);
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+        bd.addEventListener('click', closeDrawer);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+        });
+    }
+
+    function init() {
         setupAjaxSearch();
         setupCatalogFilters();
         setupHeaderPanels();
         setupThemeAndLanguage();
-    });
+        setupMobileMenu();
+    }
+
+    // Script is inlined at end of <body> via file_get_contents,
+    // so DOMContentLoaded may have already fired — run immediately if so.
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 
     window.showMessage = showMessage;
 })();

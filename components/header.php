@@ -21,7 +21,6 @@ function header_route_active(string $prefix, string $currentPath): string
 ?>
 <header class="site-header sticky-top">
     <div class="header-shell container">
-        <!-- Single row: logo left, everything else right -->
         <div class="header-row">
             <!-- Logo kiri -->
             <a class="brand-lockup" href="/" aria-label="RysuReads home">
@@ -29,7 +28,7 @@ function header_route_active(string $prefix, string $currentPath): string
                 <span class="brand-tagline-only">Read More. Grow More.</span>
             </a>
 
-            <!-- Nav + Utility kanan -->
+            <!-- Nav + Utility kanan (desktop) -->
             <div class="header-right">
                 <!-- Utility links (user/login) -->
                 <div class="header-utility-top">
@@ -55,7 +54,7 @@ function header_route_active(string $prefix, string $currentPath): string
                             <a class="nav-tab<?php echo header_nav_class('/my-books', $activePath); ?>" href="/my-books" style="font:inherit;text-decoration:none">My Books</a>
                         <?php endif; ?>
                     </nav>
-                    <!-- Toggles as search-icon-like button -->
+                    <!-- Toggles -->
                     <div class="header-toggles">
                         <button class="toggle-btn" type="button" data-theme-toggle aria-label="Toggle theme" data-i18n="header.theme" title="Toggle theme">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -63,6 +62,17 @@ function header_route_active(string $prefix, string $currentPath): string
                         <button class="toggle-btn toggle-btn-accent" type="button" data-lang-toggle aria-label="Toggle language" data-i18n="header.lang" title="切换语言">中</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Mobile right: toggles + hamburger -->
+            <div class="mobile-header-right">
+                <button class="toggle-btn" type="button" data-theme-toggle aria-label="Toggle theme" title="Toggle theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </button>
+                <button class="toggle-btn toggle-btn-accent" type="button" data-lang-toggle aria-label="Toggle language">中</button>
+                <button class="mobile-menu-btn" type="button" data-mobile-menu aria-label="Open menu" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
             </div>
         </div>
     </div>
@@ -119,4 +129,5 @@ function header_route_active(string $prefix, string $currentPath): string
             </div>
         </section>
     </div>
+
 </header>

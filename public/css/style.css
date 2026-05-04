@@ -1251,6 +1251,29 @@ html[data-theme="dark"] .creator-avatar {
     text-align: left;
 }
 
+/* Mobile hamburger — hidden on desktop, shown via @media below */
+.mobile-header-right {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.mobile-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: rgba(122, 31, 43, 0.08);
+    border: 1px solid rgba(122, 31, 43, 0.18);
+    color: var(--brand-dark);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mobile-menu-btn:hover { background: rgba(122, 31, 43, 0.15); }
+
 @media (max-width: 991.98px) {
     .hero-grid,
     .detail-layout {
@@ -1353,8 +1376,17 @@ html[data-theme="dark"] .creator-avatar {
         padding: 1.75rem 1.75rem 1.5rem;
     }
 
+    /* === MOBILE HEADER: compact single-bar === */
     .header-utility-top {
-        display: none;
+        display: none; /* moved into drawer on mobile */
+    }
+
+    .header-right {
+        display: none; /* hide desktop nav on mobile */
+    }
+
+    .mobile-menu-btn {
+        display: inline-flex;
     }
 
     .site-footer .text-md-end {
@@ -1363,6 +1395,201 @@ html[data-theme="dark"] .creator-avatar {
 
     .nav-drawer {
         width: 100vw;
-        padding: 5rem 1.25rem 1.5rem;
+        padding: 0;
+    }
+
+    /* === MOBILE HEADER === */
+    .mobile-header-right {
+        display: flex;
+    }
+
+    .header-shell {
+        padding-top: 0.55rem;
+        padding-bottom: 0.55rem;
+    }
+
+    .brand-tagline-only {
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+    }
+
+    .brand-mark {
+        width: 38px;
+        height: 38px;
     }
 }
+
+/* ===== MOBILE DRAWER ===== */
+.mobile-drawer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100%;
+    background: var(--surface);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.mobile-drawer.is-open {
+    transform: translateX(0);
+    pointer-events: all;
+}
+
+.mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.mobile-drawer-close {
+    appearance: none;
+    background: rgba(122, 31, 43, 0.08);
+    border: 1px solid rgba(122, 31, 43, 0.15);
+    color: var(--brand-dark);
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    font-size: 1.35rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.mobile-drawer-user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: rgba(122, 31, 43, 0.04);
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-drawer-greeting {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0 0 0.12rem;
+    color: var(--text);
+}
+
+.mobile-drawer-role {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+
+.mobile-drawer-admin-chip {
+    background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.mobile-drawer-nav {
+    flex: 1;
+    padding: 0.4rem 0;
+}
+
+.mobile-drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.9rem 1.5rem;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 600;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.mobile-drawer-link:hover {
+    background: rgba(122, 31, 43, 0.05);
+    color: var(--brand-dark);
+    border-left-color: rgba(122, 31, 43, 0.3);
+}
+
+.mobile-drawer-link.active {
+    background: rgba(122, 31, 43, 0.07);
+    color: var(--brand-dark);
+    border-left-color: var(--brand);
+}
+
+.mobile-drawer-link svg { color: var(--muted); flex-shrink: 0; }
+.mobile-drawer-link:hover svg, .mobile-drawer-link.active svg { color: var(--brand); }
+
+.mobile-drawer-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.65rem;
+}
+
+.mobile-drawer-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.mobile-drawer-logout-btn:hover { background: rgba(220,38,38,0.07); color: #dc2626; }
+
+.mobile-drawer-auth-solid {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.mobile-drawer-auth-outline {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid rgba(122, 31, 43, 0.25);
+    color: var(--brand-dark);
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* Dark mode mobile */
+html[data-theme="dark"] .mobile-drawer { background: #1e1416; }
+html[data-theme="dark"] .mobile-drawer-header { background: #1e1416; border-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .mobile-drawer-user { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .mobile-drawer-footer { border-color: rgba(255,255,255,0.08); }
+html[data-theme="dark"] .mobile-drawer-link:hover,
+html[data-theme="dark"] .mobile-drawer-link.active { background: rgba(255,255,255,0.05); color: var(--accent); }
+html[data-theme="dark"] .mobile-drawer-close { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); color: var(--text); }
+html[data-theme="dark"] .mobile-menu-btn { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); color: var(--text); }
