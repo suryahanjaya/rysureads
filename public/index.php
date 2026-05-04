@@ -81,7 +81,7 @@ $featuredSql = "SELECT items.*, categories.name AS category_name, categories.slu
                 FROM items
                 JOIN categories ON categories.id = items.category_id
                 ORDER BY items.rating DESC, items.created_at DESC
-                LIMIT 6";
+                LIMIT 2";
 $featuredItems = $conn->query($featuredSql);
 ?>
 
@@ -112,43 +112,27 @@ $featuredItems = $conn->query($featuredSql);
     </div>
 </section>
 
-<section class="section-block" id="search-section">
-    <div class="container">
-        <div class="section-heading">
-            <h2 data-i18n="home.searchHeading">Search the catalog</h2>
-        </div>
-        <div class="search-shell home-search-cta">
-            <p class="mb-0" data-i18n="home.searchCopy">Search the online bookstore by title, category, or keyword.</p>
-            <a href="/search" class="btn-primary-action" data-i18n="home.openSearch">Open search</a>
-        </div>
-    </div>
-</section>
-
 <section class="section-block" id="catalog">
     <div class="container">
         <div class="section-heading">
             <h2 data-i18n="home.featuredHeading">Featured selections</h2>
         </div>
-        <div class="row g-4">
+        <div class="featured-showcase">
             <?php if ($featuredItems && $featuredItems->num_rows > 0): ?>
                 <?php while ($item = $featuredItems->fetch_assoc()): ?>
-                    <div class="col-sm-6 col-lg-4">
-                        <article class="product-card">
-                            <img src="<?php echo e(image_url($item['image'] ?: 'images/logo.png')); ?>" alt="<?php echo e($item['name']); ?>" class="product-image">
-                            <div class="product-card-body">
-                                <div class="product-meta">
-                                    <span class="chip"><?php echo e($item['category_name']); ?></span>
-                                    <span class="rating">&#9733; <?php echo number_format((float) $item['rating'], 1); ?></span>
-                                </div>
-                                <h3><?php echo e($item['name']); ?></h3>
-                                <p><?php echo e(mb_strimwidth($item['description'], 0, 92, '...')); ?></p>
-                                <div class="product-bottom">
-                                    <strong>$<?php echo number_format((float) $item['price'], 2); ?></strong>
-                                    <a href="<?php echo e(product_url($item['slug'])); ?>" class="btn-link-action">View details</a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
+                    <article class="featured-card">
+                        <div class="featured-card-image">
+                            <img src="<?php echo e(image_url($item['image'] ?: 'images/logo.png')); ?>" alt="<?php echo e($item['name']); ?>">
+                        </div>
+                        <div class="featured-card-body">
+                            <span class="featured-card-label"><?php echo e($item['category_name']); ?></span>
+                            <h3 class="featured-card-title"><?php echo e($item['name']); ?></h3>
+                            <p class="featured-card-copy"><?php echo e(mb_strimwidth($item['description'], 0, 120, '...')); ?></p>
+                            <a href="<?php echo e(product_url($item['slug'])); ?>" class="featured-card-btn" aria-label="View <?php echo e($item['name']); ?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </a>
+                        </div>
+                    </article>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>
