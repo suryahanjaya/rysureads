@@ -1,6 +1,6 @@
 <?php
 
-$logoPath = image_url('images/00.png');
+$logoPath = image_url('images/logo.png');
 $activePath = current_path();
 $user = current_user();
 $isAdmin = is_admin();
@@ -26,6 +26,7 @@ function header_route_active(string $prefix, string $currentPath): string
             <!-- Logo kiri -->
             <a class="brand-lockup" href="/" aria-label="RysuReads home">
                 <img src="<?php echo e($logoPath); ?>" alt="RysuReads logo" class="brand-mark">
+                <span class="brand-tagline-only">Read More. Grow More.</span>
             </a>
 
             <!-- Nav + Utility kanan -->

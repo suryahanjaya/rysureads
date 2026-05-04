@@ -128,9 +128,11 @@ $featuredItems = $conn->query($featuredSql);
                             <span class="featured-card-label"><?php echo e($item['category_name']); ?></span>
                             <h3 class="featured-card-title"><?php echo e($item['name']); ?></h3>
                             <p class="featured-card-copy"><?php echo e(mb_strimwidth($item['description'], 0, 120, '...')); ?></p>
-                            <a href="<?php echo e(product_url($item['slug'])); ?>" class="featured-card-btn" aria-label="View <?php echo e($item['name']); ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                            </a>
+                            <div class="featured-card-footer">
+                                <a href="<?php echo e(product_url($item['slug'])); ?>" class="featured-card-btn" aria-label="View <?php echo e($item['name']); ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </a>
+                            </div>
                         </div>
                     </article>
                 <?php endwhile; ?>
