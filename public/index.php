@@ -80,6 +80,26 @@ if ($path === '/admin') {
     exit;
 }
 
+if ($path === '/buy-item') {
+    require_once '../pages/buy_item.php';
+    exit;
+}
+
+if ($path === '/my-books') {
+    require_once '../pages/my_books.php';
+    exit;
+}
+
+if ($path === '/edit-item') {
+    require_once '../pages/edit_item.php';
+    exit;
+}
+
+if ($path === '/update-item') {
+    require_once '../pages/update_item.php';
+    exit;
+}
+
 require_once '../config/database.php';
 
 $pageTitle = 'Home';
@@ -137,7 +157,10 @@ $featuredItems = $conn->query($featuredSql);
                         <div class="featured-card-body">
                             <span class="featured-card-label"><?php echo e($item['category_name']); ?></span>
                             <h3 class="featured-card-title"><?php echo e($item['name']); ?></h3>
-                            <p class="featured-card-copy"><?php echo e(mb_strimwidth($item['description'], 0, 120, '...')); ?></p>
+                            <p class="featured-card-copy">
+                                <span class="item-desc-en"><?php echo e(mb_strimwidth($item['description_en'] ?: $item['description'], 0, 120, '...')); ?></span>
+                                <span class="item-desc-zh" hidden><?php echo e(mb_strimwidth($item['description'], 0, 120, '...')); ?></span>
+                            </p>
                             <div class="featured-card-footer">
                                 <a href="<?php echo e(product_url($item['slug'])); ?>" class="featured-card-btn" aria-label="View <?php echo e($item['name']); ?>">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>

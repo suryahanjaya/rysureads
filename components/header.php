@@ -51,6 +51,9 @@ function header_route_active(string $prefix, string $currentPath): string
                         <button class="<?php echo e(trim('nav-tab' . header_route_active('/products', $activePath))); ?>" type="button" data-nav-toggle="nav-browse" aria-expanded="false" data-i18n="nav.products">Products</button>
                         <button class="<?php echo e(trim('nav-tab' . header_nav_class('/search', $activePath))); ?>" type="button" data-nav-toggle="nav-search" aria-expanded="false" data-i18n="nav.search">Search</button>
                         <button class="<?php echo e(trim('nav-tab' . header_nav_class('/contact', $activePath))); ?>" type="button" data-nav-toggle="nav-contact" aria-expanded="false" data-i18n="nav.contact">Contact</button>
+                        <?php if ($user && !$isAdmin): ?>
+                            <a class="nav-tab<?php echo header_nav_class('/my-books', $activePath); ?>" href="/my-books" style="font:inherit;text-decoration:none">My Books</a>
+                        <?php endif; ?>
                     </nav>
                     <!-- Toggles as search-icon-like button -->
                     <div class="header-toggles">

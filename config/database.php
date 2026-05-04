@@ -241,6 +241,22 @@ function ensure_schema(mysqli $conn): void
     if ((int) $hasLocationUnique === 0) {
         $conn->exec("ALTER TABLE item_locations ADD UNIQUE KEY item_location_unique (item_id, location_name)");
     }
+
+    $hasDescEn = $conn->query("SELECT COUNT(*) AS c FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = 'items' AND column_name = 'description_en'")->fetch_assoc()['c'] ?? 0;
+    if ((int) $hasDescEn === 0) {
+        $conn->exec("ALTER TABLE items ADD COLUMN description_en TEXT DEFAULT NULL");
+    }
+
+    $hasPurchases = $conn->query("SELECT COUNT(*) AS c FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'purchases'")->fetch_assoc()['c'] ?? 0;
+    if ((int) $hasPurchases === 0) {
+        $conn->exec("CREATE TABLE purchases (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            item_id INT NOT NULL,
+            purchased_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY user_item_unique (user_id, item_id)
+        )");
+    }
 }
 
 ensure_schema($conn);

@@ -11,14 +11,18 @@ require_admin();
 
 $name        = trim($_POST['name'] ?? '');
 $price       = trim($_POST['price'] ?? '');
+$rating      = trim($_POST['rating'] ?? '4.5');
 $categoryId  = (int) ($_POST['category_id'] ?? 0);
-$description = trim($_POST['description'] ?? '');
+$descEn      = trim($_POST['description_en'] ?? '');
+$descZh      = trim($_POST['description_zh'] ?? '');
 
-if ($name === '' || $price === '' || $categoryId === 0 || $description === '') {
+if ($name === '' || $price === '' || $categoryId === 0 || $descEn === '') {
     app_flash('error', 'All required fields must be completed.');
     header('Location: /create-item');
     exit;
 }
+
+$ratingVal = max(0, min(5, (float) $rating));
 
 // --- Handle image upload ---
 $imageValue = null;
@@ -41,10 +45,10 @@ if ($uploadFile && $uploadFile['error'] === UPLOAD_ERR_OK && $uploadFile['size']
         exit;
     }
 
-    $ext        = pathinfo($uploadFile['name'], PATHINFO_EXTENSION) ?: 'jpg';
-    $safeName   = 'item_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . strtolower($ext);
-    $uploadDir  = __DIR__ . '/../public/images/';
-    $destPath   = $uploadDir . $safeName;
+    $ext       = pathinfo($uploadFile['name'], PATHINFO_EXTENSION) ?: 'jpg';
+    $safeName  = 'item_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . strtolower($ext);
+    $uploadDir = __DIR__ . '/../public/images/';
+    $destPath  = $uploadDir . $safeName;
 
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
@@ -59,21 +63,45 @@ if ($uploadFile && $uploadFile['error'] === UPLOAD_ERR_OK && $uploadFile['size']
     $imageValue = 'images/' . $safeName;
 }
 
-$slug   = slugify($name);
-$rating = 4.5;
+$slug = slugify($name);
 
-$stmt = $conn->prepare('INSERT INTO items (name, slug, price, rating, category_id, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)');
-$stmt->bind_param('ssddiss', $name, $slug, $price, $rating, $categoryId, $description, $imageValue);
+// Use ZH desc as main description; EN stored in description_en
+$descMain = $descZh !== '' ? $descZh : $descEn;
 
-if ($stmt->execute()) {
+$stmt = $conn->prepare('INSERT INTO items (name, slug, price, rating, category_id, description, description_en, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+$stmt->bind_param('ssddiiss', $name, $slug, $price, $ratingVal, $categoryId, $descMain, $descEn, $imageValue);
+
+if (!$stmt->execute()) {
     $stmt->close();
     $conn->close();
-    header('Location: /admin');
+    app_flash('error', 'Unable to save the item. The title may already exist.');
+    header('Location: /create-item');
     exit;
 }
 
+$newItemId = $stmt->insert_id;
 $stmt->close();
+
+// --- Handle store locations ---
+$locNames = $_POST['loc_name']    ?? [];
+$locNotes = $_POST['loc_note']    ?? [];
+$locAddrs = $_POST['loc_address'] ?? [];
+$locMaps  = $_POST['loc_map']     ?? [];
+
+foreach ($locNames as $i => $locName) {
+    $locName = trim($locName);
+    $locAddr = trim($locAddrs[$i] ?? '');
+    if ($locName === '' || $locAddr === '') continue;
+
+    $locNote = trim($locNotes[$i] ?? '');
+    $locMap  = trim($locMaps[$i] ?? '');
+
+    $locStmt = $conn->prepare('INSERT IGNORE INTO item_locations (item_id, location_name, address, map_url, availability_note) VALUES (?, ?, ?, ?, ?)');
+    $locStmt->bind_param('issss', $newItemId, $locName, $locAddr, $locMap, $locNote);
+    $locStmt->execute();
+    $locStmt->close();
+}
+
 $conn->close();
-app_flash('error', 'Unable to save the item. Please try again.');
-header('Location: create_item.php');
+header('Location: /admin');
 exit;

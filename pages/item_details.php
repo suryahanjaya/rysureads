@@ -2,19 +2,19 @@
 
 require_once '../config/database.php';
 
-$slug = trim($_GET['slug'] ?? '');
+$slug   = trim($_GET['slug'] ?? '');
 $itemId = (int) ($_GET['id'] ?? 0);
 
-$pageTitle = 'Item Details';
+$pageTitle       = 'Item Details';
 $metaDescription = 'View item details, category path, and store availability.';
-$bodyClass = 'details-page';
+$bodyClass       = 'details-page';
 include '../components/page_open.php';
 
-$sql = "SELECT items.*, categories.name AS category_name, categories.slug AS category_slug
-        FROM items
-        JOIN categories ON categories.id = items.category_id
-        WHERE items.slug = ? OR items.id = ?
-        LIMIT 1";
+$sql  = "SELECT items.*, categories.name AS category_name, categories.slug AS category_slug
+         FROM items
+         JOIN categories ON categories.id = items.category_id
+         WHERE items.slug = ? OR items.id = ?
+         LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('si', $slug, $itemId);
 $stmt->execute();
@@ -25,6 +25,17 @@ if (!$item) {
     echo '<section class="section-block"><div class="container"><div class="empty-state">Item not found.</div></div></section>';
     include '../components/page_close.php';
     exit;
+}
+
+// Check if already purchased
+$alreadyPurchased = false;
+$loggedUser = current_user();
+if ($loggedUser) {
+    $chk = $conn->prepare('SELECT id FROM purchases WHERE user_id = ? AND item_id = ? LIMIT 1');
+    $chk->bind_param('ii', $loggedUser['id'], $item['id']);
+    $chk->execute();
+    $alreadyPurchased = (bool) $chk->get_result()->fetch_assoc();
+    $chk->close();
 }
 
 $locationsStmt = $conn->prepare('SELECT location_name, address, map_url, availability_note FROM item_locations WHERE item_id = ? ORDER BY location_name');
@@ -62,16 +73,39 @@ $related = $relatedStmt->get_result();
                 <h1><?php echo e($item['name']); ?></h1>
                 <p class="rating-line">Rating: <?php echo number_format((float) $item['rating'], 1); ?> / 5</p>
                 <p class="price-line">$<?php echo number_format((float) $item['price'], 2); ?></p>
-                <p><?php echo e($item['description']); ?></p>
+
+                <!-- Dual-language description: JS toggles visibility -->
+                <p class="item-desc-en"><?php echo e($item['description_en'] ?: $item['description']); ?></p>
+                <p class="item-desc-zh" hidden><?php echo e($item['description']); ?></p>
+
                 <div class="detail-actions">
-                    <a href="<?php echo e(category_url($item['category_slug'])); ?>" class="btn-secondary-action">Back to category</a>
-                    <a href="/products" class="btn-primary-action">Browse more titles</a>
+                    <?php if ($loggedUser): ?>
+                        <?php if ($alreadyPurchased): ?>
+                            <span class="buy-badge buy-badge-owned">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                Already purchased
+                            </span>
+                            <a href="/my-books" class="btn-secondary-action">My Books</a>
+                        <?php else: ?>
+                            <form method="POST" action="/buy-item" style="display:inline">
+                                <input type="hidden" name="item_id" value="<?php echo (int) $item['id']; ?>">
+                                <button type="submit" class="btn-primary-action buy-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                                    Buy — $<?php echo number_format((float) $item['price'], 2); ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <a href="/login" class="btn-primary-action">Login to Buy</a>
+                    <?php endif; ?>
+                    <a href="/products" class="btn-secondary-action">Browse more</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<?php if ($locations && $locations->num_rows > 0): ?>
 <section class="section-block">
     <div class="container">
         <div class="section-heading">
@@ -79,25 +113,20 @@ $related = $relatedStmt->get_result();
             <h2>Where this item is available</h2>
         </div>
         <div class="row g-3">
-            <?php if ($locations && $locations->num_rows > 0): ?>
-                <?php while ($location = $locations->fetch_assoc()): ?>
-                    <div class="col-md-6">
-                        <article class="location-card">
-                            <h3><?php echo e($location['location_name']); ?></h3>
-                            <p><?php echo e($location['address']); ?></p>
-                            <p class="muted-line"><?php echo e($location['availability_note'] ?: 'Available'); ?></p>
-                            <a href="<?php echo e($location['map_url']); ?>" target="_blank" rel="noopener" class="btn-link-action">Open Google Maps</a>
-                        </article>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <div class="col-12">
-                    <div class="empty-state">No location data has been added for this item yet.</div>
+            <?php while ($location = $locations->fetch_assoc()): ?>
+                <div class="col-md-6">
+                    <article class="location-card">
+                        <h3><?php echo e($location['location_name']); ?></h3>
+                        <p><?php echo e($location['address']); ?></p>
+                        <p class="muted-line"><?php echo e($location['availability_note'] ?: 'Available'); ?></p>
+                        <a href="<?php echo e($location['map_url']); ?>" target="_blank" rel="noopener" class="btn-link-action">Open Google Maps</a>
+                    </article>
                 </div>
-            <?php endif; ?>
+            <?php endwhile; ?>
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <?php if ($related && $related->num_rows > 0): ?>
 <section class="section-block">
@@ -125,6 +154,26 @@ $related = $relatedStmt->get_result();
     </div>
 </section>
 <?php endif; ?>
+
+<script>
+/* Switch description language based on stored lang preference */
+(function() {
+    function syncDesc() {
+        var lang = localStorage.getItem('rysureads-lang') || 'en';
+        var en = document.querySelectorAll('.item-desc-en');
+        var zh = document.querySelectorAll('.item-desc-zh');
+        en.forEach(function(el) { el.hidden = lang === 'zh'; });
+        zh.forEach(function(el) { el.hidden = lang !== 'zh'; });
+    }
+    syncDesc();
+    /* Re-sync when lang toggle fires */
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.hasAttribute('data-lang-toggle')) {
+            setTimeout(syncDesc, 50);
+        }
+    });
+})();
+</script>
 
 <?php
 $locationsStmt->close();

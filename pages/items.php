@@ -112,7 +112,10 @@ $totalPages = max(1, (int) ceil($totalRows / $perPage));
                                     <span class="rating">&#9733; <?php echo number_format((float) $item['rating'], 1); ?></span>
                                 </div>
                                 <h3><?php echo e($item['name']); ?></h3>
-                                <p><?php echo e(mb_strimwidth($item['description'], 0, 96, '...')); ?></p>
+                                <p>
+                                    <span class="item-desc-en"><?php echo e(mb_strimwidth($item['description_en'] ?: $item['description'], 0, 96, '...')); ?></span>
+                                    <span class="item-desc-zh" hidden><?php echo e(mb_strimwidth($item['description'], 0, 96, '...')); ?></span>
+                                </p>
                                 <div class="product-bottom">
                                     <strong>$<?php echo number_format((float) $item['price'], 2); ?></strong>
                                     <a href="<?php echo e(product_url($item['slug'])); ?>" class="btn-link-action">Details</a>

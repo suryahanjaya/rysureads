@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
         app_flash('error', 'Enter a valid email and password.');
-        header('Location: login.php');
+        header('Location: /login');
         exit;
     }
 
@@ -33,12 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'role' => $user['role'] ?: 'user',
         ];
         $conn->close();
-        header('Location: /');
+        $dest = (($user['role'] ?? '') === 'admin') ? '/admin' : '/';
+        header('Location: ' . $dest);
         exit;
     }
 
     app_flash('error', 'Incorrect email or password.');
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 

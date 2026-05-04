@@ -313,6 +313,16 @@
             }
         };
 
+        function syncDescLanguage() {
+            var isZh = lang === 'zh';
+            Array.prototype.slice.call(document.querySelectorAll('.item-desc-en')).forEach(function (el) {
+                el.hidden = isZh;
+            });
+            Array.prototype.slice.call(document.querySelectorAll('.item-desc-zh')).forEach(function (el) {
+                el.hidden = !isZh;
+            });
+        }
+
         function applyTheme(nextTheme) {
             theme = nextTheme === 'dark' ? 'dark' : 'light';
             root.setAttribute('data-theme', theme);
@@ -353,6 +363,8 @@
                     node.setAttribute('placeholder', value2);
                 }
             });
+
+            syncDescLanguage();
         }
 
         applyTheme(theme);
