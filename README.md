@@ -49,8 +49,8 @@ The app is intentionally structured without a build step. Pages are rendered wit
 
 | Area | Stack |
 | --- | --- |
-| Backend | PHP 8.0+ compatible syntax, session-based authentication, custom mysqli-compatible database wrapper backed by PDO when native `mysqli` is unavailable |
-| Database | MySQL or MariaDB |
+| Backend | PHP 8.0+ compatible syntax, session-based authentication, mysqli-style database access with a PDO-backed compatibility layer in `config/database.php` |
+| Database | MySQL |
 | Frontend | HTML5, vanilla JavaScript, custom CSS, Bootstrap 5.3.0 |
 | Typography | Google Fonts: Cormorant Garamond, Inter |
 | Data and Utilities | UTF-8 / utf8mb4 support, prepared statements, local storage for theme and language preferences, server-side routing through `public/index.php` |

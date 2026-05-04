@@ -1,15 +1,18 @@
 erDiagram
-    users ||--o{ item_locations : "uses reset/auth data"
-    categories ||--o{ items : "contains"
-    items ||--o{ item_locations : "available at"
+    categories ||--o{ items : contains
+    items ||--o{ item_locations : available_at
+    users ||--o{ purchases : makes
+    items ||--o{ purchases : is_purchased_in
 
     users {
         int id PK
         varchar name
         varchar email
         varchar password
+        varchar role
         varchar reset_token
         datetime reset_expires_at
+        datetime created_at
     }
 
     categories {
@@ -26,7 +29,9 @@ erDiagram
         decimal rating
         int category_id FK
         text description
+        text description_en
         varchar image
+        datetime created_at
     }
 
     item_locations {
@@ -36,4 +41,11 @@ erDiagram
         varchar address
         varchar map_url
         varchar availability_note
+    }
+
+    purchases {
+        int id PK
+        int user_id FK
+        int item_id FK
+        datetime purchased_at
     }
