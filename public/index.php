@@ -89,9 +89,9 @@ $featuredItems = $conn->query($featuredSql);
     <div class="container">
         <div class="hero-grid">
             <div class="hero-copy">
-                <span class="eyebrow">Reading room</span>
-                <h1>A calm place to browse books with the attention of a library and the polish of a private archive.</h1>
-                <p>RysuReads presents carefully arranged titles and categories in a timeless editorial layout built for focused browsing.</p>
+                <span class="eyebrow">Online bookstore</span>
+                <h1>Welcome to RysuReads.</h1>
+                <p>Browse books, categories, and store locations in a clean, timeless online bookstore experience.</p>
                 <div class="hero-actions">
                     <a href="/products" class="btn-primary-action">Browse the catalog</a>
                     <a href="/search" class="btn-secondary-action">Search titles</a>
@@ -100,12 +100,12 @@ $featuredItems = $conn->query($featuredSql);
             <aside class="hero-panel" aria-label="Highlights">
                 <div class="hero-panel-card">
                     <span class="panel-label">Featured paths</span>
-                    <strong>Classic literature, fiction, fantasy, and more</strong>
-                    <p>Explore curated shelves with a simple route through categories, details, and store availability.</p>
+                    <strong>Books for every reading mood</strong>
+                    <p>Explore categories, item details, and store availability in one place.</p>
                 </div>
                 <div class="hero-panel-card hero-panel-card-accent">
                     <span class="panel-label">Read with ease</span>
-                    <p>Balanced spacing, restrained color, and strong typography keep the catalog easy to scan on any screen.</p>
+                    <p>Balanced spacing and classic typography keep the catalog easy to scan on any screen.</p>
                 </div>
             </aside>
         </div>
@@ -118,7 +118,7 @@ $featuredItems = $conn->query($featuredSql);
             <h2>Search the catalog</h2>
         </div>
         <div class="search-shell home-search-cta">
-            <p class="mb-0">Use the catalog search to find a title, category, or keyword.</p>
+            <p class="mb-0">Search the online bookstore by title, category, or keyword.</p>
             <a href="/search" class="btn-primary-action">Open search</a>
         </div>
     </div>

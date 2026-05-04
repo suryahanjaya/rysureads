@@ -42,6 +42,8 @@ a {
 }
 
 .site-header {
+    position: relative;
+    z-index: 40;
     background: rgba(252, 248, 242, 0.98);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(27, 21, 22, 0.08);
@@ -129,17 +131,12 @@ a {
     padding-top: 1rem;
 }
 
-.primary-nav-shell {
-    width: 100%;
-    display: grid;
-    gap: 0.85rem;
-}
-
 .primary-nav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.35rem;
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .nav-tab {
@@ -186,22 +183,66 @@ a {
     color: var(--brand-dark);
 }
 
-.nav-panel-stack {
+.nav-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 12, 14, 0.34);
+    backdrop-filter: blur(8px);
+    z-index: 35;
+}
+
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(44vw, 520px);
+    min-height: 100vh;
+    padding: 5.5rem 2rem 2rem;
+    background: rgba(255, 252, 247, 0.98);
+    border-left: 1px solid rgba(27, 21, 22, 0.10);
+    box-shadow: -12px 0 40px rgba(64, 19, 26, 0.12);
+    z-index: 45;
     display: grid;
-    gap: 0.75rem;
+    gap: 1.25rem;
+    align-content: start;
 }
 
-.nav-panel {
+.nav-drawer-panel {
     display: none;
-    padding: 1rem 1.1rem;
-    background: rgba(255, 253, 249, 0.96);
-    border: 1px solid rgba(27, 21, 22, 0.10);
-    border-radius: 18px;
-    box-shadow: var(--shadow-soft);
+    padding: 0.2rem 0 0;
 }
 
-.nav-panel.is-open {
-    display: block;
+.nav-drawer-panel.is-open {
+    display: grid;
+    gap: 1rem;
+}
+
+.nav-drawer-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 0;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1;
+    box-shadow: 0 10px 22px rgba(122, 31, 43, 0.18);
+}
+
+.nav-drawer-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    line-height: 1;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.nav-panel-grid-large {
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .nav-panel-label {
@@ -231,33 +272,19 @@ a {
     border-bottom-color: var(--accent);
 }
 
-.header-actions {
-    display: none;
+.nav-panel-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
 }
 
-.header-admin-link,
-.header-search-link {
-    text-decoration: none;
-    border-radius: 999px;
-    padding: 0.72rem 1rem;
-    font-weight: 700;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-.header-admin-link {
-    background: var(--brand);
-    color: #fff;
-    box-shadow: 0 10px 22px rgba(122, 31, 43, 0.18);
-}
-
-.header-search-link {
-    color: #fff;
-    background: var(--accent);
-}
-
-.header-admin-link:hover,
-.header-search-link:hover {
-    transform: translateY(-1px);
+body.nav-is-open .main-content,
+body.nav-is-open .site-footer {
+    filter: blur(6px);
+    transform: scale(0.997);
+    transform-origin: top center;
+    pointer-events: none;
+    user-select: none;
 }
 
 .hero-section,
@@ -786,7 +813,12 @@ a {
     }
 
     .primary-nav {
+        justify-content: flex-start;
         gap: 1rem;
+    }
+
+    .nav-drawer {
+        width: min(92vw, 520px);
     }
 }
 
@@ -817,5 +849,10 @@ a {
 
     .site-footer .text-md-end {
         text-align: left !important;
+    }
+
+    .nav-drawer {
+        width: 100vw;
+        padding: 5rem 1.25rem 1.5rem;
     }
 }

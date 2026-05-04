@@ -29,9 +29,10 @@ function header_route_active(string $prefix, string $currentPath): string
                     <span class="brand-tagline">Read More. Grow More.</span>
                 </span>
             </a>
+
             <div class="header-utility">
                 <?php if ($user): ?>
-                    <span class="header-user">Hello, <?php echo e($user['name']); ?></span>
+                    <span class="header-user">Hi, <?php echo e($user['name']); ?></span>
                     <a href="/logout">Logout</a>
                 <?php else: ?>
                     <a href="/login">Login</a>
@@ -41,68 +42,65 @@ function header_route_active(string $prefix, string $currentPath): string
         </div>
 
         <div class="header-navline">
-            <div class="primary-nav-shell">
-                <nav class="primary-nav" aria-label="Primary navigation">
-                    <button class="<?php echo e(trim('nav-tab' . header_nav_class('/', $activePath))); ?>" type="button" data-nav-toggle="nav-home" aria-expanded="<?php echo $activePath === '/' ? 'true' : 'false'; ?>">
-                        Home
-                    </button>
-                    <button class="<?php echo e(trim('nav-tab' . header_route_active('/products', $activePath))); ?>" type="button" data-nav-toggle="nav-browse" aria-expanded="<?php echo str_starts_with($activePath, '/products') ? 'true' : 'false'; ?>">
-                        Products
-                    </button>
-                    <button class="<?php echo e(trim('nav-tab' . header_nav_class('/search', $activePath))); ?>" type="button" data-nav-toggle="nav-search" aria-expanded="<?php echo $activePath === '/search' ? 'true' : 'false'; ?>">
-                        Search
-                    </button>
-                    <button class="<?php echo e(trim('nav-tab' . header_nav_class('/contact', $activePath))); ?>" type="button" data-nav-toggle="nav-contact" aria-expanded="<?php echo $activePath === '/contact' ? 'true' : 'false'; ?>">
-                        Contact
-                    </button>
-                </nav>
-
-                <div class="nav-panel-stack">
-                    <section class="nav-panel<?php echo $activePath === '/' ? ' is-open' : ''; ?>" data-nav-panel="nav-home">
-                        <p class="nav-panel-label">Home</p>
-                        <div class="nav-panel-grid">
-                            <a href="/" class="nav-panel-link">Overview</a>
-                            <a href="/products" class="nav-panel-link">Featured selections</a>
-                            <a href="/search" class="nav-panel-link">Search titles</a>
-                        </div>
-                    </section>
-
-                    <section class="nav-panel<?php echo str_starts_with($activePath, '/products') ? ' is-open' : ''; ?>" data-nav-panel="nav-browse">
-                        <p class="nav-panel-label">Products</p>
-                        <div class="nav-panel-grid">
-                            <a href="/products" class="nav-panel-link">All products</a>
-                            <?php if ($categories && $categories->num_rows > 0): ?>
-                                <?php while ($cat = $categories->fetch_assoc()): ?>
-                                    <a href="<?php echo e(category_url($cat['slug'])); ?>" class="nav-panel-link"><?php echo e($cat['name']); ?></a>
-                                <?php endwhile; ?>
-                            <?php endif; ?>
-                            <?php if ($isAdmin): ?>
-                                <a href="/create-item" class="nav-panel-link">Add item</a>
-                            <?php endif; ?>
-                        </div>
-                    </section>
-
-                    <section class="nav-panel<?php echo $activePath === '/search' ? ' is-open' : ''; ?>" data-nav-panel="nav-search">
-                        <p class="nav-panel-label">Search</p>
-                        <div class="nav-panel-grid">
-                            <a href="/search" class="nav-panel-link">Search titles</a>
-                            <a href="/products?sort=rating_desc" class="nav-panel-link">Top rated titles</a>
-                        </div>
-                    </section>
-
-                    <section class="nav-panel<?php echo $activePath === '/contact' ? ' is-open' : ''; ?>" data-nav-panel="nav-contact">
-                        <p class="nav-panel-label">Contact</p>
-                        <div class="nav-panel-grid">
-                            <a href="/contact" class="nav-panel-link">Contact details</a>
-                            <a href="/login" class="nav-panel-link">Login</a>
-                            <a href="/register" class="nav-panel-link">Register</a>
-                            <?php if ($isAdmin): ?>
-                                <a href="/create-item" class="nav-panel-link">Add item</a>
-                            <?php endif; ?>
-                        </div>
-                    </section>
-                </div>
-            </div>
+            <nav class="primary-nav" aria-label="Primary navigation">
+                <button class="<?php echo e(trim('nav-tab' . header_nav_class('/', $activePath))); ?>" type="button" data-nav-toggle="nav-home" aria-expanded="false">Home</button>
+                <button class="<?php echo e(trim('nav-tab' . header_route_active('/products', $activePath))); ?>" type="button" data-nav-toggle="nav-browse" aria-expanded="false">Products</button>
+                <button class="<?php echo e(trim('nav-tab' . header_nav_class('/search', $activePath))); ?>" type="button" data-nav-toggle="nav-search" aria-expanded="false">Search</button>
+                <button class="<?php echo e(trim('nav-tab' . header_nav_class('/contact', $activePath))); ?>" type="button" data-nav-toggle="nav-contact" aria-expanded="false">Contact</button>
+            </nav>
         </div>
+    </div>
+
+    <div class="nav-backdrop" data-nav-backdrop hidden></div>
+    <div class="nav-drawer" data-nav-drawer hidden>
+        <button class="nav-drawer-close" type="button" data-nav-close aria-label="Close menu">&times;</button>
+
+        <section class="nav-drawer-panel" data-nav-panel="nav-home">
+            <p class="nav-panel-label">Home</p>
+            <a href="/" class="nav-drawer-title">RysuReads</a>
+            <div class="nav-panel-grid nav-panel-grid-large">
+                <a href="/" class="nav-panel-link">Overview</a>
+                <a href="/products" class="nav-panel-link">Featured selections</a>
+                <a href="/search" class="nav-panel-link">Search titles</a>
+            </div>
+        </section>
+
+        <section class="nav-drawer-panel" data-nav-panel="nav-browse">
+            <p class="nav-panel-label">Products</p>
+            <a href="/products" class="nav-drawer-title">Browse the catalog</a>
+            <div class="nav-panel-grid nav-panel-grid-large">
+                <a href="/products" class="nav-panel-link">All products</a>
+                <?php if ($categories && $categories->num_rows > 0): ?>
+                    <?php while ($cat = $categories->fetch_assoc()): ?>
+                        <a href="<?php echo e(category_url($cat['slug'])); ?>" class="nav-panel-link"><?php echo e($cat['name']); ?></a>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if ($isAdmin): ?>
+                    <a href="/create-item" class="nav-panel-link">Add item</a>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <section class="nav-drawer-panel" data-nav-panel="nav-search">
+            <p class="nav-panel-label">Search</p>
+            <a href="/search" class="nav-drawer-title">Search titles</a>
+            <div class="nav-panel-grid nav-panel-grid-large">
+                <a href="/search" class="nav-panel-link">Search titles</a>
+                <a href="/products?sort=rating_desc" class="nav-panel-link">Top rated titles</a>
+            </div>
+        </section>
+
+        <section class="nav-drawer-panel" data-nav-panel="nav-contact">
+            <p class="nav-panel-label">Contact</p>
+            <a href="/contact" class="nav-drawer-title">Contact details</a>
+            <div class="nav-panel-grid nav-panel-grid-large">
+                <a href="/contact" class="nav-panel-link">Contact details</a>
+                <a href="/login" class="nav-panel-link">Login</a>
+                <a href="/register" class="nav-panel-link">Register</a>
+                <?php if ($isAdmin): ?>
+                    <a href="/create-item" class="nav-panel-link">Add item</a>
+                <?php endif; ?>
+            </div>
+        </section>
     </div>
 </header>

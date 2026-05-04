@@ -79,7 +79,9 @@
     function setupHeaderPanels() {
         var toggles = Array.prototype.slice.call(document.querySelectorAll('[data-nav-toggle]'));
         var panels = Array.prototype.slice.call(document.querySelectorAll('[data-nav-panel]'));
-        if (!toggles.length || !panels.length) return;
+        var drawer = document.querySelector('[data-nav-drawer]');
+        var backdrop = document.querySelector('[data-nav-backdrop]');
+        if (!toggles.length || !panels.length || !drawer || !backdrop) return;
 
         function closeAll() {
             toggles.forEach(function (toggle) {
@@ -89,6 +91,9 @@
             panels.forEach(function (panel) {
                 panel.classList.remove('is-open');
             });
+            drawer.hidden = true;
+            backdrop.hidden = true;
+            document.body.classList.remove('nav-is-open');
         }
 
         function openPanel(panelId) {
@@ -99,6 +104,9 @@
             toggle.classList.add('is-active');
             toggle.setAttribute('aria-expanded', 'true');
             panel.classList.add('is-open');
+            drawer.hidden = false;
+            backdrop.hidden = false;
+            document.body.classList.add('nav-is-open');
         }
 
         toggles.forEach(function (toggle) {
@@ -119,9 +127,11 @@
             toggles.forEach(function (toggle) {
                 if (toggle.contains(target)) clickedInside = true;
             });
-            panels.forEach(function (panel) {
-                if (panel.contains(target)) clickedInside = true;
-            });
+            if (drawer.contains(target)) clickedInside = true;
+            if (backdrop.contains(target)) {
+                closeAll();
+                return;
+            }
             if (!clickedInside) {
                 closeAll();
             }
@@ -132,6 +142,14 @@
                 closeAll();
             }
         });
+
+        drawer.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                closeAll();
+            });
+        });
+
+        drawer.querySelector('[data-nav-close]').addEventListener('click', closeAll);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
