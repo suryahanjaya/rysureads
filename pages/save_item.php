@@ -1,42 +1,42 @@
 <?php
-/*
- * save_item.php — Inserts a new book into the database.
- * No HTML output — processes the form then redirects.
- */
+
 require_once '../config/database.php';
 
-// Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: create_item.php');
     exit;
 }
 
-// Sanitise inputs
-$name        = trim($_POST['name']        ?? '');
-$price       = trim($_POST['price']       ?? '');
-$category_id = (int) ($_POST['category_id'] ?? 0);
-$description = trim($_POST['description'] ?? '');
+require_admin();
 
-// Basic validation
-if ($name === '' || $price === '' || $category_id === 0 || $description === '') {
-    header('Location: create_item.php?error=All+fields+are+required.');
+$name = trim($_POST['name'] ?? '');
+$price = trim($_POST['price'] ?? '');
+$categoryId = (int) ($_POST['category_id'] ?? 0);
+$description = trim($_POST['description'] ?? '');
+$image = trim($_POST['image'] ?? '');
+
+if ($name === '' || $price === '' || $categoryId === 0 || $description === '') {
+    app_flash('error', 'All required fields must be completed.');
+    header('Location: create_item.php');
     exit;
 }
 
-// Prepared statement — INSERT INTO items
-$stmt = $conn->prepare(
-    "INSERT INTO items (name, price, category_id, description) VALUES (?, ?, ?, ?)"
-);
-$stmt->bind_param("sdis", $name, $price, $category_id, $description);
+$slug = slugify($name);
+$rating = 4.5;
+$imageValue = $image !== '' ? $image : null;
+
+$stmt = $conn->prepare('INSERT INTO items (name, slug, price, rating, category_id, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)');
+$stmt->bind_param('ssddiss', $name, $slug, $price, $rating, $categoryId, $description, $imageValue);
 
 if ($stmt->execute()) {
     $stmt->close();
     $conn->close();
     header('Location: items.php');
     exit;
-} else {
-    $stmt->close();
-    $conn->close();
-    header('Location: create_item.php?error=Database+error.+Please+try+again.');
-    exit;
 }
+
+$stmt->close();
+$conn->close();
+app_flash('error', 'Unable to save the item. Please try again.');
+header('Location: create_item.php');
+exit;

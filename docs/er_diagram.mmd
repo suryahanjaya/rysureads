@@ -1,0 +1,39 @@
+erDiagram
+    users ||--o{ item_locations : "uses reset/auth data"
+    categories ||--o{ items : "contains"
+    items ||--o{ item_locations : "available at"
+
+    users {
+        int id PK
+        varchar name
+        varchar email
+        varchar password
+        varchar reset_token
+        datetime reset_expires_at
+    }
+
+    categories {
+        int id PK
+        varchar name
+        varchar slug
+    }
+
+    items {
+        int id PK
+        varchar name
+        varchar slug
+        decimal price
+        decimal rating
+        int category_id FK
+        text description
+        varchar image
+    }
+
+    item_locations {
+        int id PK
+        int item_id FK
+        varchar location_name
+        varchar address
+        varchar map_url
+        varchar availability_note
+    }

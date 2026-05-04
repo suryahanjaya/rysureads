@@ -1,175 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RysuReads - Online Bookstore</title>
+require_once '../config/app.php';
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+if (($_GET['asset'] ?? '') === 'image') {
+    send_image_file((string) ($_GET['path'] ?? ''));
+}
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+$path = current_path();
 
-    <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
-</head>
+if ($path === '/search') {
+    require_once '../pages/search.php';
+    exit;
+}
 
-<body>
+if ($path === '/contact') {
+    require_once '../pages/contact.php';
+    exit;
+}
 
-    <!-- HEADER & NAVIGATION -->
-    <?php include '../components/header.php'; ?>
+if ($path === '/products') {
+    require_once '../pages/items.php';
+    exit;
+}
 
-    <!-- HERO SECTION -->
-    <div class="main-content">
-    <section class="hero-section">
-        <div class="container text-center">
-            <h1>Welcome to RysuReads</h1>
-            <p class="mt-3">Your online bookstore for timeless classics and modern reads.</p>
-            <a href="#catalog" class="btn-browse mt-3">Browse Collection</a>
-        </div>
-    </section>
+if (preg_match('#^/products/category/([^/]+)$#', $path, $matches)) {
+    $_GET['category'] = urldecode($matches[1]);
+    require_once '../pages/items.php';
+    exit;
+}
 
-    <!-- SEARCH SECTION -->
-    <section class="py-5" id="search-section">
-        <div class="container">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search books by title...">
+if (preg_match('#^/products/([^/]+)$#', $path, $matches)) {
+    $_GET['slug'] = urldecode($matches[1]);
+    require_once '../pages/item_details.php';
+    exit;
+}
+
+if ($path === '/search-items') {
+    require_once '../pages/search_items.php';
+    exit;
+}
+
+if ($path === '/login') {
+    require_once '../pages/login.php';
+    exit;
+}
+
+if ($path === '/register') {
+    require_once '../pages/register.php';
+    exit;
+}
+
+if ($path === '/forgot-password') {
+    require_once '../pages/forgot_password.php';
+    exit;
+}
+
+if ($path === '/reset-password') {
+    require_once '../pages/reset_password.php';
+    exit;
+}
+
+if ($path === '/logout') {
+    require_once '../pages/logout.php';
+    exit;
+}
+
+if ($path === '/create-item') {
+    require_once '../pages/create_item.php';
+    exit;
+}
+
+require_once '../config/database.php';
+
+$pageTitle = 'Home';
+$metaDescription = 'RysuReads is a refined reading catalog for discovering books and categories.';
+$bodyClass = 'home-page';
+include '../components/page_open.php';
+
+$featuredSql = "SELECT items.*, categories.name AS category_name, categories.slug AS category_slug
+                FROM items
+                JOIN categories ON categories.id = items.category_id
+                ORDER BY items.rating DESC, items.created_at DESC
+                LIMIT 6";
+$featuredItems = $conn->query($featuredSql);
+?>
+
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <span class="eyebrow">Reading room</span>
+                <h1>A calm place to browse books with the attention of a library and the polish of a private archive.</h1>
+                <p>RysuReads presents carefully arranged titles and categories in a timeless editorial layout built for focused browsing.</p>
+                <div class="hero-actions">
+                    <a href="/products" class="btn-primary-action">Browse the catalog</a>
+                    <a href="/search" class="btn-secondary-action">Search titles</a>
+                </div>
             </div>
+            <aside class="hero-panel" aria-label="Highlights">
+                <div class="hero-panel-card">
+                    <span class="panel-label">Featured paths</span>
+                    <strong>Classic literature, fiction, fantasy, and more</strong>
+                    <p>Explore curated shelves with a simple route through categories, details, and store availability.</p>
+                </div>
+                <div class="hero-panel-card hero-panel-card-accent">
+                    <span class="panel-label">Read with ease</span>
+                    <p>Balanced spacing, restrained color, and strong typography keep the catalog easy to scan on any screen.</p>
+                </div>
+            </aside>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- BOOK CATALOG -->
-    <section class="pb-5" id="catalog">
-        <div class="container">
-            <h2 class="section-title">Featured Books</h2>
-
-            <div class="row">
-
-                <!-- Book 1 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item1.jpg" class="card-img-top" alt="The Great Gatsby">
-                        <div class="card-body">
-                            <h5 class="card-title">The Great Gatsby</h5>
-                            <p class="card-text">A portrait of the Jazz Age and a cautionary tale of the American Dream.</p>
-                            <div class="book-price">$12.99</div>
-                            <a href="../pages/item_details.php?id=1" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 2 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item2.jpg" class="card-img-top" alt="To Kill a Mockingbird">
-                        <div class="card-body">
-                            <h5 class="card-title">To Kill a Mockingbird</h5>
-                            <p class="card-text">A gripping tale of racial injustice and childhood innocence in the American South.</p>
-                            <div class="book-price">$14.50</div>
-                            <a href="../pages/item_details.php?id=2" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 3 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item3.jpg" class="card-img-top" alt="1984">
-                        <div class="card-body">
-                            <h5 class="card-title">1984</h5>
-                            <p class="card-text">A dystopian masterpiece about totalitarianism, surveillance, and the erosion of truth.</p>
-                            <div class="book-price">$11.99</div>
-                            <a href="../pages/item_details.php?id=3" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 4 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item4.jpg" class="card-img-top" alt="Pride and Prejudice">
-                        <div class="card-body">
-                            <h5 class="card-title">Pride and Prejudice</h5>
-                            <p class="card-text">A witty exploration of manners, morality, and marriage in Regency-era England.</p>
-                            <div class="book-price">$10.99</div>
-                            <a href="../pages/item_details.php?id=4" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 5 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item5.jpg" class="card-img-top" alt="The Hobbit">
-                        <div class="card-body">
-                            <h5 class="card-title">The Hobbit</h5>
-                            <p class="card-text">An epic quest through Middle-earth filled with dragons, dwarves, and adventure.</p>
-                            <div class="book-price">$15.99</div>
-                            <a href="../pages/item_details.php?id=5" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 6 -->
-                <div class="col-md-4 mb-4 book-card-wrapper">
-                    <div class="card book-card">
-                        <img src="images/item6.jpg" class="card-img-top" alt="The Catcher in the Rye">
-                        <div class="card-body">
-                            <h5 class="card-title">The Catcher in the Rye</h5>
-                            <p class="card-text">Follow Holden Caulfield as he grapples with adolescence, identity, and belonging.</p>
-                            <div class="book-price">$13.49</div>
-                            <a href="../pages/item_details.php?id=6" class="btn-view">View Details</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+<section class="section-block" id="search-section">
+    <div class="container">
+        <div class="section-heading">
+            <h2>Search the catalog</h2>
         </div>
-    </section>
+        <div class="search-shell home-search-cta">
+            <p class="mb-0">Use the catalog search to find a title, category, or keyword.</p>
+            <a href="/search" class="btn-primary-action">Open search</a>
+        </div>
+    </div>
+</section>
 
-    <!-- CONTACT SECTION -->
-    <section class="py-5" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="contact-section">
-                        <form onsubmit="event.preventDefault(); showMessage('Thank you! We will get back to you soon.');">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="contactName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="contactName" placeholder="Your name" required>
+<section class="section-block" id="catalog">
+    <div class="container">
+        <div class="section-heading">
+            <h2>Featured selections</h2>
+        </div>
+        <div class="row g-4">
+            <?php if ($featuredItems && $featuredItems->num_rows > 0): ?>
+                <?php while ($item = $featuredItems->fetch_assoc()): ?>
+                    <div class="col-sm-6 col-lg-4">
+                        <article class="product-card">
+                            <img src="<?php echo e(image_url($item['image'] ?: 'images/logo.png')); ?>" alt="<?php echo e($item['name']); ?>" class="product-image">
+                            <div class="product-card-body">
+                                <div class="product-meta">
+                                    <span class="chip"><?php echo e($item['category_name']); ?></span>
+                                    <span class="rating">&#9733; <?php echo number_format((float) $item['rating'], 1); ?></span>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="contactEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="contactEmail" placeholder="Your email" required>
+                                <h3><?php echo e($item['name']); ?></h3>
+                                <p><?php echo e(mb_strimwidth($item['description'], 0, 92, '...')); ?></p>
+                                <div class="product-bottom">
+                                    <strong>$<?php echo number_format((float) $item['price'], 2); ?></strong>
+                                    <a href="<?php echo e(product_url($item['slug'])); ?>" class="btn-link-action">View details</a>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="contactMessage" class="form-label">Message</label>
-                                <textarea class="form-control" id="contactMessage" rows="4" placeholder="Your message..." required></textarea>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn-submit">Send Message</button>
-                            </div>
-                        </form>
+                        </article>
                     </div>
-                </div>
-            </div>
+                <?php endwhile; ?>
+            <?php endif; ?>
         </div>
-    </section>
-    </div><!-- end .main-content -->
+    </div>
+</section>
 
-    <!-- FOOTER -->
-    <?php include '../components/footer.php'; ?>
-
-    <!-- Custom JS -->
-    <script src="js/script.js"></script>
-
-</body>
-
-</html>
+<?php
+$conn->close();
+include '../components/page_close.php';

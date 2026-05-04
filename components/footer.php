@@ -1,7 +1,14 @@
-<!-- Footer -->
-<footer class="py-3 mt-5" style="background-color: #3D8D7A;">
-    <div class="container text-center">
-        <p class="mb-0" style="color: #ffffff;">RysuReads - 2026. All rights reserved.</p>
+<footer class="site-footer mt-5">
+    <div class="container py-4 footer-shell">
+        <div>
+            <p class="footer-brand">RysuReads</p>
+            <p class="footer-copy">Copyright 2026. Contact: support@rysureads.local | +84 900 000 123</p>
+        </div>
+        <div class="footer-links">
+            <a class="footer-link" href="/products">Products</a>
+            <a class="footer-link" href="/search">Search</a>
+            <a class="footer-link" href="/public/sitemap.xml">Sitemap</a>
+        </div>
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
