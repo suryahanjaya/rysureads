@@ -35,9 +35,9 @@ include '../components/page_open.php';
                 </div>
             </div>
             <div class="creator-info-col">
-                <span class="creator-badge">Developer &amp; Designer</span>
-                <h2 class="creator-name">Surya Hanjaya</h2>
-                <p class="creator-bio">A passionate web developer and book lover from Indonesia. RysuReads is a personal project built to make discovering books a refined, enjoyable experience.</p>
+                <span class="creator-badge" data-i18n="contact.badge">Developer &amp; Designer</span>
+                <h2 class="creator-name" data-i18n="contact.name">Surya Hanjaya</h2>
+                <p class="creator-bio" data-i18n="contact.bio">A passionate web developer and book lover from Indonesia. RysuReads is a personal project built to make discovering books a refined, enjoyable experience.</p>
 
                 <div class="creator-links">
                     <a class="creator-link creator-link-email" href="mailto:surya.23007@mhs.unesa.ac.id">

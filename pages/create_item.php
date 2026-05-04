@@ -39,7 +39,7 @@ $error = app_flash('error');
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?php echo e($error); ?></div>
             <?php endif; ?>
-            <form action="save_item.php" method="POST" enctype="multipart/form-data" class="stack-form">
+            <form action="/save-item" method="POST" enctype="multipart/form-data" class="stack-form">
                 <div>
                     <label for="itemName" class="form-label">Item name</label>
                     <input type="text" class="form-control" id="itemName" name="name" required maxlength="150">

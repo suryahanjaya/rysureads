@@ -70,6 +70,16 @@ if ($path === '/create-item') {
     exit;
 }
 
+if ($path === '/save-item') {
+    require_once '../pages/save_item.php';
+    exit;
+}
+
+if ($path === '/admin') {
+    require_once '../pages/admin.php';
+    exit;
+}
+
 require_once '../config/database.php';
 
 $pageTitle = 'Home';

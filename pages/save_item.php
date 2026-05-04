@@ -3,7 +3,7 @@
 require_once '../config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: create_item.php');
+    header('Location: /create-item');
     exit;
 }
 
@@ -16,7 +16,7 @@ $description = trim($_POST['description'] ?? '');
 
 if ($name === '' || $price === '' || $categoryId === 0 || $description === '') {
     app_flash('error', 'All required fields must be completed.');
-    header('Location: create_item.php');
+    header('Location: /create-item');
     exit;
 }
 
@@ -31,13 +31,13 @@ if ($uploadFile && $uploadFile['error'] === UPLOAD_ERR_OK && $uploadFile['size']
 
     if (!in_array($mime, $allowed, true)) {
         app_flash('error', 'Only JPG, PNG, WebP, and GIF images are allowed.');
-        header('Location: create_item.php');
+        header('Location: /create-item');
         exit;
     }
 
     if ($uploadFile['size'] > 5 * 1024 * 1024) {
         app_flash('error', 'Image must be smaller than 5 MB.');
-        header('Location: create_item.php');
+        header('Location: /create-item');
         exit;
     }
 
@@ -52,7 +52,7 @@ if ($uploadFile && $uploadFile['error'] === UPLOAD_ERR_OK && $uploadFile['size']
 
     if (!move_uploaded_file($uploadFile['tmp_name'], $destPath)) {
         app_flash('error', 'Failed to save the uploaded image. Please try again.');
-        header('Location: create_item.php');
+        header('Location: /create-item');
         exit;
     }
 
@@ -68,7 +68,7 @@ $stmt->bind_param('ssddiss', $name, $slug, $price, $rating, $categoryId, $descri
 if ($stmt->execute()) {
     $stmt->close();
     $conn->close();
-    header('Location: items.php');
+    header('Location: /admin');
     exit;
 }
 

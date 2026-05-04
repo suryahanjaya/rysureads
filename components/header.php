@@ -35,6 +35,9 @@ function header_route_active(string $prefix, string $currentPath): string
                 <div class="header-utility-top">
                     <?php if ($user): ?>
                         <span class="header-user">Hi, <?php echo e($user['name']); ?></span>
+                        <?php if ($isAdmin): ?>
+                            <a href="/admin" style="font-weight:800;color:var(--brand-dark)">Admin Panel</a>
+                        <?php endif; ?>
                         <a href="/logout" data-i18n="header.logout">Logout</a>
                     <?php else: ?>
                         <a href="/login" data-i18n="header.login">Login</a>

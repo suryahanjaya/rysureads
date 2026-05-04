@@ -275,7 +275,7 @@
                 'contact.linkedin': '领英 — surya-hanjaya',
                 'contact.instagram': 'Instagram — @h4njy',
                 'contact.badge': '开发者 & 设计师',
-                'contact.bio': '热爱网页开发与阅读的印度尼西亚开发者。RysuReads 是一个个人项目，旨在让发现好书成为一种精致的享受。',
+                'contact.bio': '来自印度尼西亚的热忱网页开发者与书籍爱好者。RysuReads 是一个个人项目，旨在让发现好书成为一种精致而愉悦的体验。',
                 'footer.copy': '版权所有 2026',
                 'footer.products': '商品',
                 'footer.search': '搜索',
